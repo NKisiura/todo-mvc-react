@@ -1,9 +1,9 @@
 import { useReducer, useState } from "react";
 import todosReducer from "../reducers/todosReducer";
-import TodoInput from "./todoInput";
-import TodoList from "./todoList";
-import TodoItem from "./todoItem";
-import TodoFooter from "./todoFooter";
+import TodoInput from "./TodoInput";
+import TodoList from "./TodoList";
+import TodoItem from "./TodoItem";
+import TodoFooter from "./TodoFooter";
 import { Todo } from "../types/todo";
 import { TodoFilter } from "../types/todo-filter";
 
