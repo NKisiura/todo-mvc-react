@@ -1,10 +1,7 @@
 import { Todo } from "../types/todo";
 import { TodoAction } from "../types/todo-action";
 
-export default function todosReducer(
-  todos: Todo[],
-  { type, payload }: TodoAction,
-) {
+export const todosReducer = (todos: Todo[], { type, payload }: TodoAction) => {
   switch (type) {
     case "added": {
       const { todo } = payload;
@@ -58,4 +55,4 @@ export default function todosReducer(
       return todos;
     }
   }
-}
+};

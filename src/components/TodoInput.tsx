@@ -5,7 +5,7 @@ interface InputProps {
   readonly onAddTodo: (todo: string) => void;
 }
 
-export default function TodoInput({ children, onAddTodo }: InputProps) {
+export const TodoInput = ({ children, onAddTodo }: InputProps) => {
   const [inputValue, setInputValue] = useState("");
 
   return (
@@ -32,4 +32,4 @@ export default function TodoInput({ children, onAddTodo }: InputProps) {
       />
     </div>
   );
-}
+};

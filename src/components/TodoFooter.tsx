@@ -7,12 +7,12 @@ interface FooterProps {
   readonly onFilterChange: (filter: TodoFilter) => void;
 }
 
-export default function TodoFooter({
+export const TodoFooter = ({
   itemsLeftCount,
   filter: currentFilter,
   onClearCompletedTodos,
   onFilterChange,
-}: FooterProps) {
+}: FooterProps) => {
   const filters: TodoFilter[] = ["all", "active", "completed"];
 
   return (
@@ -46,4 +46,4 @@ export default function TodoFooter({
       </span>
     </div>
   );
-}
+};

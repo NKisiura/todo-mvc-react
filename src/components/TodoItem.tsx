@@ -8,12 +8,12 @@ interface TodoProps {
   readonly onEditTodo: (todoId: string, updatedTodo: string) => void;
 }
 
-export default function TodoItem({
+export const TodoItem = ({
   todo,
   onDeleteTodo,
   onToggleTodo,
   onEditTodo,
-}: TodoProps) {
+}: TodoProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isOnEdit, setIsOnEdit] = useState(false);
 
@@ -73,4 +73,4 @@ export default function TodoItem({
       )}
     </div>
   );
-}
+};

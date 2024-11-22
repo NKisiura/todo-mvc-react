@@ -1,23 +1,17 @@
 import { useReducer, useState } from "react";
-import todosReducer from "../reducers/todosReducer";
-import TodoInput from "./TodoInput";
-import TodoList from "./TodoList";
-import TodoItem from "./TodoItem";
-import TodoFooter from "./TodoFooter";
+import { todosReducer } from "../reducers/todosReducer";
+import { TodoInput } from "./TodoInput";
+import { TodoList } from "./TodoList";
+import { TodoItem } from "./TodoItem";
+import { TodoFooter } from "./TodoFooter";
 import { Todo } from "../types/todo";
 import { TodoFilter } from "../types/todo-filter";
 
-export function TodoWidget() {
+export const TodoWidget = () => {
   const [todos, dispatch] = useReducer(todosReducer, []);
   const [filter, setFilter] = useState<TodoFilter>("all");
 
-  const todosByFilter = getTodosByFilter(todos, filter);
-  const itemsLeftCount = todos.filter(({ isCompleted }) => !isCompleted).length;
-  const isAllTodosByFilterCompleted = todosByFilter.every(
-    ({ isCompleted }) => isCompleted,
-  );
-
-  function getTodosByFilter(todos: Todo[], filter: TodoFilter) {
+  const getTodosByFilter = (todos: Todo[], filter: TodoFilter) => {
     switch (filter) {
       case "all": {
         return todos;
@@ -29,29 +23,35 @@ export function TodoWidget() {
         return todos.filter(({ isCompleted }) => isCompleted);
       }
     }
-  }
+  };
 
-  function handleAddTodo(todo: string) {
+  const todosByFilter = getTodosByFilter(todos, filter);
+  const itemsLeftCount = todos.filter(({ isCompleted }) => !isCompleted).length;
+  const isAllTodosByFilterCompleted = todosByFilter.every(
+    ({ isCompleted }) => isCompleted,
+  );
+
+  const handleAddTodo = (todo: string) => {
     dispatch({ type: "added", payload: { todo } });
-  }
+  };
 
-  function handleDeleteTodo(todoId: string) {
+  const handleDeleteTodo = (todoId: string) => {
     dispatch({ type: "deleted", payload: { todoId } });
-  }
+  };
 
-  function handleToggleTodo(todoId: string) {
+  const handleToggleTodo = (todoId: string) => {
     dispatch({ type: "toggled", payload: { todoId } });
-  }
+  };
 
-  function handleEditTodo(todoId: string, updatedTodo: string) {
+  const handleEditTodo = (todoId: string, updatedTodo: string) => {
     dispatch({ type: "edited", payload: { todoId, updatedTodo } });
-  }
+  };
 
-  function handleClearCompletedTodos(): void {
+  const handleClearCompletedTodos = () => {
     dispatch({ type: "clear-completed", payload: {} });
-  }
+  };
 
-  function handleToggleAllTodosByFilter(): void {
+  const handleToggleAllTodosByFilter = () => {
     const nextStatus = !isAllTodosByFilterCompleted;
     const todoIds = todosByFilter.map(({ id }) => id);
 
@@ -59,7 +59,7 @@ export function TodoWidget() {
       type: "toggle-all-by-filter",
       payload: { nextStatus, todoIds },
     });
-  }
+  };
 
   return (
     <div className="flex w-full max-w-[550px] flex-col gap-3">
@@ -99,4 +99,4 @@ export function TodoWidget() {
       )}
     </div>
   );
-}
+};
