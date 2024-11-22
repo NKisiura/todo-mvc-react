@@ -22,11 +22,16 @@ export const TodoWidget = () => {
       case "completed": {
         return todos.filter(({ isCompleted }) => isCompleted);
       }
+      default: {
+        throw new Error("Unknown filter value");
+      }
     }
   };
 
   const todosByFilter = getTodosByFilter(todos, filter);
-  const itemsLeftCount = todos.filter(({ isCompleted }) => !isCompleted).length;
+  const remainingItemsCount = todos.filter(
+    ({ isCompleted }) => !isCompleted,
+  ).length;
   const isAllTodosByFilterCompleted = todosByFilter.every(
     ({ isCompleted }) => isCompleted,
   );
@@ -48,7 +53,7 @@ export const TodoWidget = () => {
   };
 
   const handleClearCompletedTodos = () => {
-    dispatch({ type: "clear-completed", payload: {} });
+    dispatch({ type: "cleared-completed", payload: {} });
   };
 
   const handleToggleAllTodosByFilter = () => {
@@ -56,7 +61,7 @@ export const TodoWidget = () => {
     const todoIds = todosByFilter.map(({ id }) => id);
 
     dispatch({
-      type: "toggle-all-by-filter",
+      type: "toggled-all-by-filter",
       payload: { nextStatus, todoIds },
     });
   };
@@ -91,7 +96,7 @@ export const TodoWidget = () => {
       )}
       {!!todos.length && (
         <TodoFooter
-          itemsLeftCount={itemsLeftCount}
+          remainingItemsCount={remainingItemsCount}
           filter={filter}
           onClearCompletedTodos={handleClearCompletedTodos}
           onFilterChange={setFilter}

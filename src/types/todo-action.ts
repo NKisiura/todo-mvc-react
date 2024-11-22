@@ -8,13 +8,13 @@ export type TodoActionType =
   | "deleted"
   | "edited"
   | "toggled"
-  | "clear-completed"
-  | "toggle-all-by-filter";
+  | "cleared-completed"
+  | "toggled-all-by-filter";
 
 export type TodoAction =
   | Action<"added", { todo: string }>
   | Action<"deleted", { todoId: string }>
   | Action<"edited", { todoId: string; updatedTodo: string }>
   | Action<"toggled", { todoId: string }>
-  | Action<"clear-completed", {}>
-  | Action<"toggle-all-by-filter", { nextStatus: boolean; todoIds: string[] }>;
+  | Action<"cleared-completed", {}>
+  | Action<"toggled-all-by-filter", { nextStatus: boolean; todoIds: string[] }>;

@@ -1,12 +1,13 @@
 import { Todo } from "../types/todo";
 import { useState } from "react";
+import { KeyboardEvent } from "react";
 
-interface TodoProps {
+type TodoProps = {
   readonly todo: Todo;
   readonly onDeleteTodo: (todoId: string) => void;
   readonly onToggleTodo: (todoId: string) => void;
   readonly onEditTodo: (todoId: string, updatedTodo: string) => void;
-}
+};
 
 export const TodoItem = ({
   todo,
@@ -14,19 +15,31 @@ export const TodoItem = ({
   onToggleTodo,
   onEditTodo,
 }: TodoProps) => {
+  const [inputValue, setInputValue] = useState("");
   const [isHovered, setIsHovered] = useState(false);
   const [isOnEdit, setIsOnEdit] = useState(false);
 
+  const handleInputKeyDownEvent = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key !== "Enter") return;
+    if (!inputValue.trim()) return;
+
+    onEditTodo(todo.id, inputValue.trim());
+    setIsOnEdit(false);
+  };
+
+  const handleDescriptionDoubleClick = () => {
+    setIsOnEdit(true);
+    setInputValue(todo.todo);
+  };
+
   return (
     <div
-      className={`relative w-full rounded-lg border-2 border-white bg-white px-3 py-2 text-2xl font-light text-teal-900 ${isOnEdit ? "!border-teal-400" : ""}`}
+      className={`relative w-full rounded-lg border-2 bg-white px-3 py-2 text-2xl font-light text-teal-900 ${isOnEdit ? "border-teal-400" : "border-white"}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="flex items-center gap-2">
-        <label
-          className={`relative h-7 min-h-7 w-7 min-w-7 rounded-full border border-teal-600`}
-        >
+        <label className="relative h-7 min-h-7 w-7 min-w-7 rounded-full border border-teal-600">
           {todo.isCompleted && (
             <i className="fa-solid fa-check absolute left-1/2 -translate-x-1/2 text-lg text-teal-600"></i>
           )}
@@ -41,21 +54,14 @@ export const TodoItem = ({
             type="text"
             autoFocus
             className="w-full focus:outline-0"
-            defaultValue={todo.todo}
+            value={inputValue}
+            onChange={(event) => setInputValue(event.target.value)}
             onBlur={() => setIsOnEdit(false)}
-            onKeyDown={(e) => {
-              if (e.key !== "Enter") return;
-
-              const inputValue = (e.target as HTMLInputElement).value;
-              if (!inputValue.trim()) return;
-
-              onEditTodo(todo.id, inputValue.trim());
-              setIsOnEdit(false);
-            }}
+            onKeyDown={handleInputKeyDownEvent}
           />
         : <span
             className={`w-full break-all ${todo.isCompleted ? "text-gray-400/90 line-through" : ""}`}
-            onDoubleClick={() => setIsOnEdit(true)}
+            onDoubleClick={handleDescriptionDoubleClick}
           >
             {todo.todo}
           </span>

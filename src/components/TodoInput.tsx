@@ -1,12 +1,24 @@
-import { ReactNode, useState } from "react";
+import { ChangeEvent, ReactNode, useState, KeyboardEvent } from "react";
 
-interface InputProps {
+type InputProps = {
   readonly children: ReactNode;
   readonly onAddTodo: (todo: string) => void;
-}
+};
 
 export const TodoInput = ({ children, onAddTodo }: InputProps) => {
   const [inputValue, setInputValue] = useState("");
+
+  const handleChangeEvent = (event: ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value);
+  };
+
+  const handleKeyDownEvent = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key !== "Enter") return;
+    if (!inputValue.trim()) return;
+
+    onAddTodo(inputValue.trim());
+    setInputValue("");
+  };
 
   return (
     <div className="relative">
@@ -19,16 +31,8 @@ export const TodoInput = ({ children, onAddTodo }: InputProps) => {
         placeholder="What needs to be done?"
         autoFocus
         value={inputValue}
-        onInput={(event) => {
-          setInputValue((event.target as HTMLInputElement).value);
-        }}
-        onKeyDown={(e) => {
-          if (e.key !== "Enter") return;
-          if (!inputValue.trim()) return;
-
-          onAddTodo(inputValue.trim());
-          setInputValue("");
-        }}
+        onChange={handleChangeEvent}
+        onKeyDown={handleKeyDownEvent}
       />
     </div>
   );

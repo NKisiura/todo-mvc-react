@@ -39,10 +39,10 @@ export const todosReducer = (todos: Todo[], { type, payload }: TodoAction) => {
         return isTargetTodo ? { ...todo, isCompleted: !isCompleted } : todo;
       });
     }
-    case "clear-completed": {
+    case "cleared-completed": {
       return todos.filter(({ isCompleted }) => !isCompleted);
     }
-    case "toggle-all-by-filter": {
+    case "toggled-all-by-filter": {
       const { nextStatus, todoIds } = payload;
 
       return todos.map((todo) => {
@@ -52,7 +52,7 @@ export const todosReducer = (todos: Todo[], { type, payload }: TodoAction) => {
       });
     }
     default: {
-      return todos;
+      throw new Error(`todosReducer: unknown action "${type}"`);
     }
   }
 };

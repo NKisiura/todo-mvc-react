@@ -1,4 +1,4 @@
-import { TodoWidget } from "./components/todoWidget";
+import { TodoWidget } from "./components/TodoWidget";
 
 function App() {
   return (

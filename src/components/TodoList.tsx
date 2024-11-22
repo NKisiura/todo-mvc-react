@@ -1,8 +1,8 @@
 import { ReactNode } from "react";
 
-interface TodoListProps {
+type TodoListProps = {
   readonly children: ReactNode;
-}
+};
 
 export const TodoList = ({ children }: TodoListProps) => {
   return (
