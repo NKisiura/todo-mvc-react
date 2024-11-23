@@ -67,7 +67,7 @@ export const TodoWidget = () => {
   };
 
   return (
-    <div className="flex w-full max-w-[550px] flex-col gap-3">
+    <div className="flex w-full max-w-[34rem] flex-col gap-3">
       <TodoInput onAddTodo={handleAddTodo}>
         {!!todosByFilter.length && (
           <button
