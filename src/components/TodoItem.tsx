@@ -1,6 +1,7 @@
 import { Todo } from "../types/todo";
 import { useState } from "react";
 import { KeyboardEvent } from "react";
+import { clsx } from "clsx";
 
 type TodoProps = {
   readonly todo: Todo;
@@ -34,7 +35,9 @@ export const TodoItem = ({
 
   const todoElement = (
     <span
-      className={`w-full break-all ${todo.isCompleted ? "text-gray-400/90 line-through" : ""}`}
+      className={clsx("w-full break-all", {
+        "text-gray-400/90 line-through": todo.isCompleted,
+      })}
       onDoubleClick={handleTodoDoubleClick}
     >
       {todo.todo}
@@ -55,7 +58,10 @@ export const TodoItem = ({
 
   return (
     <div
-      className={`relative w-full rounded-lg border-2 bg-white px-3 py-2 text-2xl font-light text-teal-900 ${isOnEdit ? "border-teal-400" : "border-white"}`}
+      className={clsx(
+        "relative w-full rounded-lg border-2 bg-white px-3 py-2 text-2xl font-light text-teal-900",
+        isOnEdit ? "border-teal-400" : "border-white",
+      )}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

@@ -1,4 +1,5 @@
 import { useReducer } from "react";
+import { clsx } from "clsx";
 import { todosReducer } from "../reducers/todosReducer";
 import { TodoInput } from "./TodoInput";
 import { TodoList } from "./TodoList";
@@ -65,7 +66,10 @@ export const TodoWidget = () => {
         {isToggleAllButtonVisible && (
           <button
             type="button"
-            className={`px-2 py-3 text-xl focus:outline-0 ${isAllTodosByFilterCompleted ? "text-teal-600" : "text-teal-400"}`}
+            className={clsx(
+              "px-2 py-3 text-xl focus:outline-0",
+              isAllTodosByFilterCompleted ? "text-teal-600" : "text-teal-400",
+            )}
             onClick={handleToggleAllTodosByFilter}
           >
             <i className="fa-solid fa-chevron-down"></i>

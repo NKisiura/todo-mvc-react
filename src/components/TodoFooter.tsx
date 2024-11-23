@@ -1,3 +1,4 @@
+import { clsx } from "clsx";
 import { TodoFilter } from "../types/todo-filter";
 
 type FooterProps = {
@@ -25,7 +26,12 @@ export const TodoFooter = ({
             <button
               type="button"
               key={filter}
-              className={`rounded-md border px-2 capitalize ${currentFilter === filter ? "border-teal-400" : "border-transparent hover:border-teal-400"}`}
+              className={clsx(
+                "rounded-md border px-2 capitalize",
+                currentFilter === filter ? "border-teal-400" : (
+                  "border-transparent hover:border-teal-400"
+                ),
+              )}
               onClick={() => onFilterChange(filter)}
             >
               {filter}
