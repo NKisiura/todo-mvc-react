@@ -1,4 +1,4 @@
-# TodoMVC React
+# todo-mvc-react
 
 ## [Preview](https://nkisiura.github.io/todo-mvc-react)
 
