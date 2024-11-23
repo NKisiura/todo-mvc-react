@@ -1,14 +1,14 @@
 import { TodoFilter } from "../types/todo-filter";
 
 type FooterProps = {
-  readonly remainingItemsCount: number;
+  readonly remainingTodosCount: number;
   readonly filter: TodoFilter;
   readonly onClearCompletedTodos: () => void;
   readonly onFilterChange: (filter: TodoFilter) => void;
 };
 
 export const TodoFooter = ({
-  remainingItemsCount,
+  remainingTodosCount,
   filter: currentFilter,
   onClearCompletedTodos,
   onFilterChange,
@@ -19,7 +19,7 @@ export const TodoFooter = ({
     <div className="flex flex-col items-center gap-6">
       <div className="flex w-full flex-col items-center justify-between gap-3 rounded-xl bg-white px-3 py-2 text-sm font-extralight text-teal-900 shadow-md sm:flex-row">
         <span>
-          {remainingItemsCount} {remainingItemsCount > 1 ? "items" : "item"}{" "}
+          {remainingTodosCount} {remainingTodosCount > 1 ? "items" : "item"}{" "}
           left!
         </span>
         <div className="flex gap-1.5">

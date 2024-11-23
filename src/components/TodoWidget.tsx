@@ -1,40 +1,25 @@
-import { useReducer, useState } from "react";
+import { useReducer } from "react";
 import { todosReducer } from "../reducers/todosReducer";
 import { TodoInput } from "./TodoInput";
 import { TodoList } from "./TodoList";
 import { TodoItem } from "./TodoItem";
 import { TodoFooter } from "./TodoFooter";
-import { Todo } from "../types/todo";
+import {
+  getTodosByFilter,
+  isCompletedTodo,
+  isIncompleteTodo,
+} from "../helpers/todo-helpers";
 import { TodoFilter } from "../types/todo-filter";
 
 export const TodoWidget = () => {
-  const [todos, dispatch] = useReducer(todosReducer, []);
-  const [filter, setFilter] = useState<TodoFilter>("all");
-
-  const getTodosByFilter = (todos: Todo[], filter: TodoFilter) => {
-    switch (filter) {
-      case "all": {
-        return todos;
-      }
-      case "active": {
-        return todos.filter(({ isCompleted }) => !isCompleted);
-      }
-      case "completed": {
-        return todos.filter(({ isCompleted }) => isCompleted);
-      }
-      default: {
-        throw new Error("Unknown filter value");
-      }
-    }
-  };
+  const [{ todos, filter }, dispatch] = useReducer(todosReducer, {
+    todos: [],
+    filter: "all",
+  });
 
   const todosByFilter = getTodosByFilter(todos, filter);
-  const remainingItemsCount = todos.filter(
-    ({ isCompleted }) => !isCompleted,
-  ).length;
-  const isAllTodosByFilterCompleted = todosByFilter.every(
-    ({ isCompleted }) => isCompleted,
-  );
+  const isAllTodosByFilterCompleted = todosByFilter.every(isCompletedTodo);
+  const remainingTodosCount = todos.filter(isIncompleteTodo).length;
 
   const handleAddTodo = (todo: string) => {
     dispatch({ type: "added", payload: { todo } });
@@ -64,6 +49,10 @@ export const TodoWidget = () => {
       type: "toggled-all-by-filter",
       payload: { nextStatus, todoIds },
     });
+  };
+
+  const handleFilterChange = (filter: TodoFilter) => {
+    dispatch({ type: "filter-changed", payload: { filter } });
   };
 
   return (
@@ -96,10 +85,10 @@ export const TodoWidget = () => {
       )}
       {!!todos.length && (
         <TodoFooter
-          remainingItemsCount={remainingItemsCount}
+          remainingTodosCount={remainingTodosCount}
           filter={filter}
           onClearCompletedTodos={handleClearCompletedTodos}
-          onFilterChange={setFilter}
+          onFilterChange={handleFilterChange}
         />
       )}
     </div>
