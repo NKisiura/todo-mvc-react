@@ -14,14 +14,12 @@ export const TodoFooter = ({
   onFilterChange,
 }: FooterProps) => {
   const filters: TodoFilter[] = ["all", "active", "completed"];
+  const remainingCountString = `${remainingTodosCount} ${remainingTodosCount > 1 ? "items" : "item"} left!`;
 
   return (
     <div className="flex flex-col items-center gap-6">
       <div className="flex w-full flex-col items-center justify-between gap-3 rounded-xl bg-white px-3 py-2 text-sm font-extralight text-teal-900 shadow-md sm:flex-row">
-        <span>
-          {remainingTodosCount} {remainingTodosCount > 1 ? "items" : "item"}{" "}
-          left!
-        </span>
+        <span>{remainingCountString}</span>
         <div className="flex gap-1.5">
           {filters.map((filter) => (
             <button
