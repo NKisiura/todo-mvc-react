@@ -21,6 +21,10 @@ export const TodoWidget = () => {
   const isAllTodosByFilterCompleted = todosByFilter.every(isCompletedTodo);
   const remainingTodosCount = todos.filter(isIncompleteTodo).length;
 
+  const isToggleAllButtonVisible = !!todosByFilter.length;
+  const isTodoListVisible = !!todosByFilter.length;
+  const isFooterVisible = !!todos.length;
+
   const handleAddTodo = (todo: string) => {
     dispatch({ type: "added", payload: { todo } });
   };
@@ -58,17 +62,17 @@ export const TodoWidget = () => {
   return (
     <div className="flex w-full max-w-[34rem] flex-col gap-3">
       <TodoInput onAddTodo={handleAddTodo}>
-        {!!todosByFilter.length && (
+        {isToggleAllButtonVisible && (
           <button
             type="button"
-            className={`px-2 py-3 text-xl text-teal-400 focus:outline-0 ${isAllTodosByFilterCompleted ? "!text-teal-600" : ""}`}
+            className={`px-2 py-3 text-xl focus:outline-0 ${isAllTodosByFilterCompleted ? "text-teal-600" : "text-teal-400"}`}
             onClick={handleToggleAllTodosByFilter}
           >
             <i className="fa-solid fa-chevron-down"></i>
           </button>
         )}
       </TodoInput>
-      {!!todosByFilter.length && (
+      {isTodoListVisible && (
         <TodoList>
           {todosByFilter.map((todo) => {
             return (
@@ -83,7 +87,7 @@ export const TodoWidget = () => {
           })}
         </TodoList>
       )}
-      {!!todos.length && (
+      {isFooterVisible && (
         <TodoFooter
           remainingTodosCount={remainingTodosCount}
           filter={filter}

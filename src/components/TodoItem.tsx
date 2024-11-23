@@ -19,6 +19,11 @@ export const TodoItem = ({
   const [isHovered, setIsHovered] = useState(false);
   const [isOnEdit, setIsOnEdit] = useState(false);
 
+  const handleTodoDoubleClick = () => {
+    setIsOnEdit(true);
+    setInputValue(todo.todo);
+  };
+
   const handleInputKeyDownEvent = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key !== "Enter") return;
     if (!inputValue.trim()) return;
@@ -27,10 +32,26 @@ export const TodoItem = ({
     setIsOnEdit(false);
   };
 
-  const handleDescriptionDoubleClick = () => {
-    setIsOnEdit(true);
-    setInputValue(todo.todo);
-  };
+  const todoElement = (
+    <span
+      className={`w-full break-all ${todo.isCompleted ? "text-gray-400/90 line-through" : ""}`}
+      onDoubleClick={handleTodoDoubleClick}
+    >
+      {todo.todo}
+    </span>
+  );
+
+  const editableTodoElement = (
+    <input
+      type="text"
+      autoFocus
+      className="w-full focus:outline-0"
+      value={inputValue}
+      onChange={(event) => setInputValue(event.target.value)}
+      onBlur={() => setIsOnEdit(false)}
+      onKeyDown={handleInputKeyDownEvent}
+    />
+  );
 
   return (
     <div
@@ -49,23 +70,7 @@ export const TodoItem = ({
             onChange={() => onToggleTodo(todo.id)}
           />
         </label>
-        {isOnEdit ?
-          <input
-            type="text"
-            autoFocus
-            className="w-full focus:outline-0"
-            value={inputValue}
-            onChange={(event) => setInputValue(event.target.value)}
-            onBlur={() => setIsOnEdit(false)}
-            onKeyDown={handleInputKeyDownEvent}
-          />
-        : <span
-            className={`w-full break-all ${todo.isCompleted ? "text-gray-400/90 line-through" : ""}`}
-            onDoubleClick={handleDescriptionDoubleClick}
-          >
-            {todo.todo}
-          </span>
-        }
+        {isOnEdit ? editableTodoElement : todoElement}
       </div>
       {isHovered && (
         <button

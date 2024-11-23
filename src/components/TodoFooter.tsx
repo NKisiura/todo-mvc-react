@@ -27,7 +27,7 @@ export const TodoFooter = ({
             <button
               type="button"
               key={filter}
-              className={`rounded-md border border-transparent px-2 capitalize hover:border-teal-400 ${currentFilter === filter ? "!border-teal-400" : ""}`}
+              className={`rounded-md border px-2 capitalize ${currentFilter === filter ? "border-teal-400" : "border-transparent hover:border-teal-400"}`}
               onClick={() => onFilterChange(filter)}
             >
               {filter}
