@@ -1,7 +1,7 @@
 import { useReducer } from "react";
 import { clsx } from "clsx";
 import { todosReducer } from "../reducers/todosReducer";
-import { TodoInput } from "./TodoInput";
+import { TodoForm } from "./TodoForm";
 import { TodoList } from "./TodoList";
 import { TodoItem } from "./TodoItem";
 import { TodoFooter } from "./TodoFooter";
@@ -62,7 +62,7 @@ export const TodoWidget = () => {
 
   return (
     <div className="flex w-full max-w-[34rem] flex-col gap-3">
-      <TodoInput onAddTodo={handleAddTodo}>
+      <TodoForm onAddTodo={handleAddTodo}>
         {isToggleAllButtonVisible && (
           <button
             type="button"
@@ -75,7 +75,7 @@ export const TodoWidget = () => {
             <i className="fa-solid fa-chevron-down"></i>
           </button>
         )}
-      </TodoInput>
+      </TodoForm>
       {isTodoListVisible && (
         <TodoList>
           {todosByFilter.map((todo) => {
