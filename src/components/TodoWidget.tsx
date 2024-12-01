@@ -3,6 +3,7 @@ import { TodoForm } from "./TodoForm";
 import { TodoList } from "./TodoList";
 import { TodoItem } from "./TodoItem";
 import { TodoFooter } from "./TodoFooter";
+import { TodoFilter } from "./TodoFilter";
 import {
   getTodosByFilter,
   isCompletedTodo,
@@ -66,9 +67,18 @@ export const TodoWidget = () => {
       {isFooterVisible && (
         <TodoFooter
           remainingTodosCount={remainingTodosCount}
-          filter={filter}
-          onClearCompletedTodos={handleClearCompletedTodos}
-          onFilterChange={handleFilterChange}
+          filterSlot={
+            <TodoFilter filter={filter} onFilterChange={handleFilterChange} />
+          }
+          actionButtonSlot={
+            <button
+              type="button"
+              className="hover:underline"
+              onClick={handleClearCompletedTodos}
+            >
+              Clear All Completed
+            </button>
+          }
         />
       )}
     </div>
