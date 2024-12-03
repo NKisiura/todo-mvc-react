@@ -67,17 +67,17 @@ export const TodoWidget = () => {
       {isFooterVisible && (
         <TodoFooter
           remainingTodosCount={remainingTodosCount}
-          filterSlot={
-            <TodoFilter filter={filter} onFilterChange={handleFilterChange} />
-          }
-          actionButtonSlot={
-            <button
-              type="button"
-              className="hover:underline"
-              onClick={handleClearCompletedTodos}
-            >
-              Clear All Completed
-            </button>
+          content={
+            <>
+              <TodoFilter filter={filter} onFilterChange={handleFilterChange} />
+              <button
+                type="button"
+                className="hover:underline"
+                onClick={handleClearCompletedTodos}
+              >
+                Clear All Completed
+              </button>
+            </>
           }
         />
       )}
