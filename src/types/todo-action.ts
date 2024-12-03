@@ -1,4 +1,5 @@
 import { TodoFilter } from "./todo-filter";
+import { Todo } from "./todo";
 
 type Action<T extends TodoActionType, P extends Record<string, unknown>> = {
   readonly type: T;
@@ -20,5 +21,5 @@ export type TodoAction =
   | Action<"edited", { todoId: string; updatedTodo: string }>
   | Action<"toggled", { todoId: string }>
   | Action<"cleared-completed", {}>
-  | Action<"toggled-all-by-filter", { nextStatus: boolean; todoIds: string[] }>
+  | Action<"toggled-all-by-filter", { filteredTodos: Todo[] }>
   | Action<"filter-changed", { filter: TodoFilter }>;

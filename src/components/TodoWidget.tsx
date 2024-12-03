@@ -11,7 +11,7 @@ export const TodoWidget = () => {
     todos,
     filter,
     filteredTodos,
-    isAllTodosByFilterCompleted,
+    isAllFilteredTodosCompleted,
     remainingTodosCount,
     handleAddTodo,
     handleDeleteTodo,
@@ -34,11 +34,9 @@ export const TodoWidget = () => {
             type="button"
             className={clsx(
               "px-2 py-3 text-xl focus:outline-0",
-              isAllTodosByFilterCompleted ? "text-teal-600" : "text-teal-400",
+              isAllFilteredTodosCompleted ? "text-teal-600" : "text-teal-400",
             )}
-            onClick={() => {
-              handleToggleAllTodosByFilter(filteredTodos);
-            }}
+            onClick={handleToggleAllTodosByFilter}
           >
             <i className="fa-solid fa-chevron-down"></i>
           </button>

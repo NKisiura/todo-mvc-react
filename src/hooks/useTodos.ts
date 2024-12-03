@@ -5,7 +5,6 @@ import {
   isCompletedTodo,
   isIncompleteTodo,
 } from "../helpers/todo-helpers";
-import { Todo } from "../types/todo";
 import { TodoFilter } from "../types/todo-filter";
 import { TodosState } from "../types/todos-state";
 
@@ -13,7 +12,7 @@ export const useTodos = (initialState: TodosState) => {
   const [{ filter, todos }, dispatch] = useReducer(todosReducer, initialState);
 
   const filteredTodos = getTodosByFilter(todos, filter);
-  const isAllTodosByFilterCompleted = filteredTodos.every(isCompletedTodo);
+  const isAllFilteredTodosCompleted = filteredTodos.every(isCompletedTodo);
   const remainingTodosCount = todos.filter(isIncompleteTodo).length;
 
   const handleAddTodo = (todo: string) => {
@@ -40,22 +39,15 @@ export const useTodos = (initialState: TodosState) => {
     dispatch({ type: "filter-changed", payload: { filter } });
   };
 
-  const handleToggleAllTodosByFilter = (todosByFilter: Todo[]) => {
-    const todoIds = todosByFilter.map(({ id }) => id);
-    const isAllTodosByFilterCompleted = todosByFilter.every(isCompletedTodo);
-    const nextStatus = !isAllTodosByFilterCompleted;
-
-    dispatch({
-      type: "toggled-all-by-filter",
-      payload: { nextStatus, todoIds },
-    });
+  const handleToggleAllTodosByFilter = () => {
+    dispatch({ type: "toggled-all-by-filter", payload: { filteredTodos } });
   };
 
   return {
     todos,
     filter,
     filteredTodos,
-    isAllTodosByFilterCompleted,
+    isAllFilteredTodosCompleted,
     remainingTodosCount,
     handleAddTodo,
     handleDeleteTodo,

@@ -1,6 +1,7 @@
 import { TodoAction } from "../types/todo-action";
 import { TodosState } from "../types/todos-state";
 import { Todo } from "../types/todo";
+import { isCompletedTodo } from "../helpers/todo-helpers";
 
 export const todosReducer = (
   state: TodosState,
@@ -9,6 +10,7 @@ export const todosReducer = (
   switch (type) {
     case "added": {
       const { todo } = payload;
+
       const newTodo: Todo = {
         id: crypto.randomUUID(),
         isCompleted: false,
@@ -22,12 +24,14 @@ export const todosReducer = (
     }
     case "deleted": {
       const { todoId } = payload;
+
       const todos = state.todos.filter(({ id }) => id !== todoId);
 
       return { ...state, todos };
     }
     case "edited": {
       const { todoId, updatedTodo } = payload;
+
       const todos = state.todos.map((todo) => {
         const isTargetTodo = todo.id === todoId;
 
@@ -38,6 +42,7 @@ export const todosReducer = (
     }
     case "toggled": {
       const { todoId } = payload;
+
       const todos = state.todos.map((todo) => {
         const { id, isCompleted } = todo;
         const isTargetTodo = id === todoId;
@@ -53,9 +58,13 @@ export const todosReducer = (
       return { ...state, todos };
     }
     case "toggled-all-by-filter": {
-      const { nextStatus, todoIds } = payload;
-      const todos = state.todos.map((todo) => {
-        const isTargetTodo = todoIds.includes(todo.id);
+      const { filteredTodos } = payload;
+
+      const isAllFilteredTodosCompleted = filteredTodos.every(isCompletedTodo);
+      const nextStatus = !isAllFilteredTodosCompleted;
+
+      const todos = state.todos.map((todo): Todo => {
+        const isTargetTodo = filteredTodos.some(({ id }) => id === todo.id);
 
         return isTargetTodo ? { ...todo, isCompleted: nextStatus } : todo;
       });
