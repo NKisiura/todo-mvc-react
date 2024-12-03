@@ -1,19 +1,18 @@
 import { clsx } from "clsx";
+import { useTodos } from "../hooks/useTodos";
 import { TodoForm } from "./TodoForm";
 import { TodoList } from "./TodoList";
 import { TodoItem } from "./TodoItem";
 import { TodoFooter } from "./TodoFooter";
 import { TodoFilter } from "./TodoFilter";
-import {
-  getTodosByFilter,
-  isCompletedTodo,
-  isIncompleteTodo,
-} from "../helpers/todo-helpers";
-import { useTodos } from "../hooks/useTodos";
 
 export const TodoWidget = () => {
   const {
-    todosState: { todos, filter },
+    todos,
+    filter,
+    filteredTodos,
+    isAllTodosByFilterCompleted,
+    remainingTodosCount,
     handleAddTodo,
     handleDeleteTodo,
     handleToggleTodo,
@@ -23,12 +22,8 @@ export const TodoWidget = () => {
     handleToggleAllTodosByFilter,
   } = useTodos({ todos: [], filter: "all" });
 
-  const todosByFilter = getTodosByFilter(todos, filter);
-  const isAllTodosByFilterCompleted = todosByFilter.every(isCompletedTodo);
-  const remainingTodosCount = todos.filter(isIncompleteTodo).length;
-
-  const isToggleAllButtonVisible = !!todosByFilter.length;
-  const isTodoListVisible = !!todosByFilter.length;
+  const isToggleAllButtonVisible = !!filteredTodos.length;
+  const isTodoListVisible = !!filteredTodos.length;
   const isFooterVisible = !!todos.length;
 
   return (
@@ -42,7 +37,7 @@ export const TodoWidget = () => {
               isAllTodosByFilterCompleted ? "text-teal-600" : "text-teal-400",
             )}
             onClick={() => {
-              handleToggleAllTodosByFilter(todosByFilter);
+              handleToggleAllTodosByFilter(filteredTodos);
             }}
           >
             <i className="fa-solid fa-chevron-down"></i>
@@ -51,7 +46,7 @@ export const TodoWidget = () => {
       </TodoForm>
       {isTodoListVisible && (
         <TodoList>
-          {todosByFilter.map((todo) => {
+          {filteredTodos.map((todo) => {
             return (
               <TodoItem
                 key={todo.id}

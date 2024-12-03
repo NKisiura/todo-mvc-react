@@ -1,12 +1,20 @@
 import { useReducer } from "react";
 import { todosReducer } from "../reducers/todosReducer";
-import { isCompletedTodo } from "../helpers/todo-helpers";
+import {
+  getTodosByFilter,
+  isCompletedTodo,
+  isIncompleteTodo,
+} from "../helpers/todo-helpers";
 import { Todo } from "../types/todo";
 import { TodoFilter } from "../types/todo-filter";
 import { TodosState } from "../types/todos-state";
 
 export const useTodos = (initialState: TodosState) => {
-  const [todosState, dispatch] = useReducer(todosReducer, initialState);
+  const [{ filter, todos }, dispatch] = useReducer(todosReducer, initialState);
+
+  const filteredTodos = getTodosByFilter(todos, filter);
+  const isAllTodosByFilterCompleted = filteredTodos.every(isCompletedTodo);
+  const remainingTodosCount = todos.filter(isIncompleteTodo).length;
 
   const handleAddTodo = (todo: string) => {
     dispatch({ type: "added", payload: { todo } });
@@ -44,7 +52,11 @@ export const useTodos = (initialState: TodosState) => {
   };
 
   return {
-    todosState,
+    todos,
+    filter,
+    filteredTodos,
+    isAllTodosByFilterCompleted,
+    remainingTodosCount,
     handleAddTodo,
     handleDeleteTodo,
     handleToggleTodo,
